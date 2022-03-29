@@ -1,0 +1,30 @@
+{
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "idf.adapterTargetName": "esp32",
+    "idf.customExtraPaths": "e:\\NEW_DATA\\Tool\\tools\\xtensa-esp32-elf\\esp-2020r3-8.4.0\\xtensa-esp32-elf\\bin;e:\\NEW_DATA\\Tool\\tools\\xtensa-esp32s2-elf\\esp-2020r3-8.4.0\\xtensa-esp32s2-elf\\bin;e:\\NEW_DATA\\Tool\\tools\\xtensa-esp32s3-elf\\esp-2020r3-8.4.0\\xtensa-esp32s3-elf\\bin;e:\\NEW_DATA\\Tool\\tools\\riscv32-esp-elf\\1.24.0.123_64eb9ff-8.4.0\\riscv32-esp-elf\\bin;e:\\NEW_DATA\\Tool\\tools\\esp32ulp-elf\\2.28.51-esp-20191205\\esp32ulp-elf-binutils\\bin;e:\\NEW_DATA\\Tool\\tools\\esp32s2ulp-elf\\2.28.51-esp-20191205\\esp32s2ulp-elf-binutils\\bin;e:\\NEW_DATA\\Tool\\tools\\cmake\\3.16.4\\bin;e:\\NEW_DATA\\Tool\\tools\\openocd-esp32\\v0.10.0-esp32-20210401\\openocd-esp32\\bin;e:\\NEW_DATA\\Tool\\tools\\ninja\\1.10.2;e:\\NEW_DATA\\Tool\\tools\\idf-exe\\1.0.1;e:\\NEW_DATA\\Tool\\tools\\ccache\\3.7;e:\\NEW_DATA\\Tool\\tools\\dfu-util\\0.9\\dfu-util-0.9-win64;e:\\NEW_DATA\\Tool\\tools\\idf-python-wheels\\idf4.3_py3.9_2021-01-07",
+    "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\":\"e:\\\\NEW_DATA\\\\Tool\\\\tools\\\\openocd-esp32\\\\v0.10.0-esp32-20210401/openocd-esp32/share/openocd/scripts\",\"IDF_CCACHE_ENABLE\":\"1\"}",
+    "idf.espIdfPathWin": "c:\\Espressif\\frameworks\\esp-idf-v4.4",
+    "idf.openOcdConfigs": [
+        "boards/esp32-wrover-kit-3.3v.cfg"
+    ],
+    "idf.portWin": "COM3",
+    "idf.pythonBinPathWin": "c:\\Espressif\\tools\\python_env\\idf4.4_py3.8_env\\Scripts\\python.exe",
+    "idf.toolsPathWin": "c:\\Espressif\\tools",
+    "files.associations": {
+        "*.inc": "c",
+        "*.ipp": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "random": "c",
+        "bitset": "c",
+        "initializer_list": "c",
+        "regex": "c",
+        "utility": "c",
+        "freertos.h": "c",
+        "task.h": "c",
+        "lcd_com.h": "c",
+        "esp_spiffs.h": "c",
+        "lcd_lib.h": "c"
+    }
+}
