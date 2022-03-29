@@ -66,6 +66,8 @@ TickType_t JPEGLOGO(TFT_t *dev, char *file, int width, int height)
     uint16_t imageWidth;
     uint16_t imageHeight;
     esp_err_t err = decode_jpeg(&pixels, file, width, height, &imageWidth, &imageHeight);
+    uint freeRAM = heap_caps_get_free_size(MALLOC_CAP_8BIT);
+    ESP_LOGI("[DRAM]", "free RAM is %d.", freeRAM);
     if (err == ESP_OK)
     {
         ESP_LOGI(__FUNCTION__, "imageWidth=%d imageHeight=%d", imageWidth, imageHeight);
@@ -199,5 +201,5 @@ void app_main(void)
     checkSPIFFS("/spiffs/"); // Check files
     ESP_LOGI(TAG_I2S, "Starting init LCD_I2S");
     HC595_I2SInit();
-    xTaskCreate(taskLCDContoller, "[taskLCDContoller]", 1024 * 80, NULL, 2, NULL);
+    xTaskCreate(taskLCDContoller, "[taskLCDContoller]", 1024 * 6, NULL, 2, NULL);
 }

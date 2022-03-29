@@ -35,7 +35,7 @@ static uint8_t HC595_LCD_DATA_BUFFER = 0x00;
 #define I2S_NUM (0)
 #define I2S_WS_PERIOD ((16 * I2S_NUM_CHANNEL) / (HC595_CLKFREQ / (1000 * 1000))) // 16 bit data - 4 us
 #define DMA_BUFFER_LENGTH 128
-#define DMA_BUFFER_COUNT 8
+#define DMA_BUFFER_COUNT 2
 #define DMA_BUFFER_PREPARE (DMA_BUFFER_LENGTH * 2) // 64 queues * 2 channels
 #define QUEUE_DMA_MULTIPLIER 4
 
