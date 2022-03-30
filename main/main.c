@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file           : main.c
- * @brief          : RCC_LCD176X220_NRF24L01
+ * @brief          : WLC_LCD176X220_PID
  ******************************************************************************
  * @attention
  *
@@ -32,6 +32,7 @@
 #include "lcd_lib.h"
 #include "fontx.h"
 #include "decode_jpeg.h"
+#include "animation.h"
 
 #include "ili9225.h"
 
@@ -65,9 +66,9 @@ TickType_t JPEGLOGO(TFT_t *dev, char *file, int width, int height)
     pixel_jpeg **pixels;
     uint16_t imageWidth;
     uint16_t imageHeight;
+    // uint freeRAM = heap_caps_get_free_size(MALLOC_CAP_8BIT);
+    // ESP_LOGI("[DRAM]", "free RAM is %d.", freeRAM);
     esp_err_t err = decode_jpeg(&pixels, file, width, height, &imageWidth, &imageHeight);
-    uint freeRAM = heap_caps_get_free_size(MALLOC_CAP_8BIT);
-    ESP_LOGI("[DRAM]", "free RAM is %d.", freeRAM);
     if (err == ESP_OK)
     {
         ESP_LOGI(__FUNCTION__, "imageWidth=%d imageHeight=%d", imageWidth, imageHeight);
@@ -149,13 +150,21 @@ static void taskLCDContoller()
         vTaskDelay(10);
         while (1)
         {
-            for (uint16_t x = 0; x < 130; x++)
-            {
-                lcdDrawFillRect(&dev, 15, 188, 15 + x, 197, GREEN);
-                vTaskDelay(pdMS_TO_TICKS(10));
-            }
-            lcdDrawFillRect(&dev, 15, 188, 144, 197, BLACK);
+            setSV(&dev, fx16G, 200);
+            setCV(&dev, fx16G, 500);
+            setP(&dev, fx16G, 156);
+            setI(&dev, fx16G, 12);
+            setD(&dev, fx16G, 5);
+            drawLightRED(&dev, 94, 78);
+            setDisplaySpeed(&dev, 50);
+            setDisplayLevel(&dev, 20);
             vTaskDelay(pdMS_TO_TICKS(500));
+            drawLightGREEN(&dev, 94, 78);
+            setDisplaySpeed(&dev, 20);
+            setDisplayLevel(&dev, 70);
+            vTaskDelay(pdMS_TO_TICKS(500));
+            // lcdDrawFillRect(&dev, 15, 188, 144, 197, BLACK);
+            // vTaskDelay(pdMS_TO_TICKS(500));
         }
     }
     vTaskDelete(NULL);

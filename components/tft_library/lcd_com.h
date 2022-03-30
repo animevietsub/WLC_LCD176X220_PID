@@ -23,6 +23,35 @@
 #define AVERAGETIME 4 // Number of samples when averaging
 #define RXPLATE 300
 
+#define HC595_CLKFREQ (10 * 1000 * 1000)
+#define I2S_NUM_CHANNEL 2
+#define I2S_NUM_BIT I2S_BITS_PER_SAMPLE_16BIT
+#define I2S_NUM (0)
+#define I2S_WS_PERIOD ((16 * I2S_NUM_CHANNEL) / (HC595_CLKFREQ / (1000 * 1000))) // 16 bit data - 4 us
+#define DMA_BUFFER_LENGTH 256
+#define DMA_BUFFER_COUNT 16
+#define DMA_BUFFER_PREPARE (DMA_BUFFER_LENGTH * 2) // 64 queues * 2 channels
+#define QUEUE_DMA_MULTIPLIER 8
+
+#define HC595_NUM_RCLK 21
+#define HC595_NUM_SRCLK 22
+#define HC595_NUM_SER 23
+
+#define HC595_D0_BIT (BIT0)
+#define HC595_D1_BIT (BIT1)
+#define HC595_D2_BIT (BIT2)
+#define HC595_D3_BIT (BIT3)
+#define HC595_D4_BIT (BIT4)
+#define HC595_D5_BIT (BIT5)
+#define HC595_D6_BIT (BIT6)
+#define HC595_D7_BIT (BIT7)
+#define HC595_LED_BIT (BIT0)
+#define HC595_RST_BIT (BIT1)
+#define HC595_RD_BIT (BIT2)
+#define HC595_WR_BIT (BIT3)
+#define HC595_RS_BIT (BIT4)
+#define HC595_CS_BIT (BIT5)
+
 typedef struct
 {
 	uint16_t _width;

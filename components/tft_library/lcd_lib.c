@@ -429,7 +429,7 @@ uint16_t rgb565_conv(uint16_t r,uint16_t g,uint16_t b) {
 // y:Y coordinate
 // ascii: ascii code
 // color:color
-int lcdDrawChar(TFT_t * dev, FontxFile *fxs, uint16_t x, uint16_t y, uint8_t ascii, uint16_t color) {
+int lcdDrawChar(TFT_t * dev, FontxFile *fxs, uint16_t x, uint16_t y, char ascii, uint16_t color) {
 	uint16_t xx,yy,bit,ofs;
 	unsigned char fonts[128]; // font pattern
 	unsigned char pw, ph;
@@ -569,7 +569,7 @@ int lcdDrawChar(TFT_t * dev, FontxFile *fxs, uint16_t x, uint16_t y, uint8_t asc
 	return next;
 }
 
-int lcdDrawString(TFT_t * dev, FontxFile *fx, uint16_t x, uint16_t y, uint8_t * ascii, uint16_t color) {
+int lcdDrawString(TFT_t * dev, FontxFile *fx, uint16_t x, uint16_t y, char * ascii, uint16_t color) {
 	int length = strlen((char *)ascii);
 	if(_DEBUG_)printf("lcdDrawString length=%d\n",length);
 	for(int i=0;i<length;i++) {

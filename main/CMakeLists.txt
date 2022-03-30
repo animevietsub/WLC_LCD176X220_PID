@@ -1,6 +1,7 @@
 set(srcs "main.c"
 	"decode_png.c"
 	"pngle.c"
+	"animation.c"
 	)
 
 # tjpgd library does not exist in ESP32-S2 ROM.

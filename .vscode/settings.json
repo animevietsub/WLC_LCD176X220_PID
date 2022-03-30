@@ -25,6 +25,19 @@
         "task.h": "c",
         "lcd_com.h": "c",
         "esp_spiffs.h": "c",
-        "lcd_lib.h": "c"
+        "lcd_lib.h": "c",
+        "animation.h": "c",
+        "ili9225.h": "c",
+        "esp_vfs.h": "c",
+        "*.tcc": "c",
+        "optional": "c",
+        "istream": "c",
+        "ostream": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "fontx.h": "c"
     }
 }

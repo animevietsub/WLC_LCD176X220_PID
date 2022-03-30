@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file           : lcd_com.c
- * @brief          : RCC_LCD176X220_SHIFTREG_HC595
+ * @brief          : WLC_LCD176X220_PID
  ******************************************************************************
  * @attention
  *
@@ -26,42 +26,17 @@
 #include "esp_log.h"
 #include "lcd_com.h"
 
+static portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+#define PORT_ENTER_CRITICAL portENTER_CRITICAL(&mux)
+#define PORT_EXIT_CRITICAL portEXIT_CRITICAL(&mux)
+
 static uint8_t HC595_LCD_CTRL_BUFFER = 0x00;
 static uint8_t HC595_LCD_DATA_BUFFER = 0x00;
-
-#define HC595_CLKFREQ (10 * 1000 * 1000)
-#define I2S_NUM_CHANNEL 2
-#define I2S_NUM_BIT I2S_BITS_PER_SAMPLE_16BIT
-#define I2S_NUM (0)
-#define I2S_WS_PERIOD ((16 * I2S_NUM_CHANNEL) / (HC595_CLKFREQ / (1000 * 1000))) // 16 bit data - 4 us
-#define DMA_BUFFER_LENGTH 128
-#define DMA_BUFFER_COUNT 2
-#define DMA_BUFFER_PREPARE (DMA_BUFFER_LENGTH * 2) // 64 queues * 2 channels
-#define QUEUE_DMA_MULTIPLIER 4
-
-#define HC595_NUM_RCLK 21
-#define HC595_NUM_SRCLK 22
-#define HC595_NUM_SER 23
-
-#define HC595_D0_BIT (BIT0)
-#define HC595_D1_BIT (BIT1)
-#define HC595_D2_BIT (BIT2)
-#define HC595_D3_BIT (BIT3)
-#define HC595_D4_BIT (BIT4)
-#define HC595_D5_BIT (BIT5)
-#define HC595_D6_BIT (BIT6)
-#define HC595_D7_BIT (BIT7)
-#define HC595_LED_BIT (BIT0)
-#define HC595_RST_BIT (BIT1)
-#define HC595_RD_BIT (BIT2)
-#define HC595_WR_BIT (BIT3)
-#define HC595_RS_BIT (BIT4)
-#define HC595_CS_BIT (BIT5)
 
 DRAM_ATTR QueueHandle_t xQueue1;
 DRAM_ATTR int64_t timeStartReceive, timeEndReceive;
 
-static const char *TAG = "[HC595_I2S]";
+static const char *TAG = "[WLC_PID]";
 
 IRAM_ATTR void HC595_QueueDelayI2S(uint32_t delayUs)
 {
@@ -75,24 +50,25 @@ IRAM_ATTR void HC595_QueueDelayI2S(uint32_t delayUs)
 static void HC595_TaskSend()
 {
 	size_t i2s_bytes_write = DMA_BUFFER_PREPARE * sizeof(uint16_t);										 // For first writing
-	uint16_t *sampleData = heap_caps_malloc(DMA_BUFFER_PREPARE * sizeof(uint16_t) * 2, MALLOC_CAP_8BIT); // Create DMA-buffer
-	memset(sampleData, 0x0000, DMA_BUFFER_PREPARE * sizeof(uint16_t) * 2);								 // Clear memory data
+	uint16_t *sampleData = heap_caps_malloc(DMA_BUFFER_PREPARE * sizeof(uint16_t) * 1, MALLOC_CAP_8BIT); // Create DMA-buffer
+	memset(sampleData, 0x0000, DMA_BUFFER_PREPARE * sizeof(uint16_t) * 1);								 // Clear memory data
 	uint16_t *sampleDataBegin = sampleData;																 // sampleData begin address
 	uint16_t lastData = 0x0000;
 	uint32_t queueMessagesWaiting = 0;
-	uint8_t dmaSelect = 0;
+	// uint8_t dmaSelect = 0;
 	while (1)
 	{
-		if (dmaSelect == 0) // Change dma buffer
-		{
-			sampleData = sampleDataBegin + 1; // Start from first-half, add 1 more shift
-			dmaSelect = 1;
-		}
-		else if (dmaSelect == 1)
-		{
-			sampleData = sampleDataBegin + DMA_BUFFER_PREPARE + 1; // Start from second-half, add 1 more shift
-			dmaSelect = 0;
-		}
+		// if (dmaSelect == 0) // Change dma buffer
+		// {
+		// 	sampleData = sampleDataBegin + 1; // Start from first-half, add 1 more shift
+		// 	dmaSelect = 1;
+		// }
+		// else if (dmaSelect == 1)
+		// {
+		// 	sampleData = sampleDataBegin + DMA_BUFFER_PREPARE + 1; // Start from second-half, add 1 more shift
+		// 	dmaSelect = 0;
+		// }
+		sampleData = sampleDataBegin + 1; // Start from first-half, add 1 more shift
 		// timeStartReceive = esp_timer_get_time();
 		for (uint16_t i = 0; i < DMA_BUFFER_PREPARE / 2; i++)
 		{
@@ -161,7 +137,7 @@ void HC595_I2SInit()
 	// SET_PERI_REG_BITS(I2S_CLKM_CONF_REG(0), I2S_CLKM_DIV_NUM_V, 2, I2S_CLKM_DIV_NUM_S);
 	// SET_PERI_REG_BITS(I2S_SAMPLE_RATE_CONF_REG(0), I2S_TX_BCK_DIV_NUM_V, 2, I2S_TX_BCK_DIV_NUM_S);
 	i2s_start(I2S_NUM);
-	xTaskCreate(HC595_TaskSend, "[HC595_TaskSend]", 1024 * 16, NULL, 3, NULL);
+	xTaskCreate(HC595_TaskSend, "[HC595_TaskSend]", 1024 * 4, NULL, 3, NULL);
 }
 
 IRAM_ATTR void HC595_SendDataToQueue() // Add new data to Queue
