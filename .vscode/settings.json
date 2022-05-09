@@ -38,6 +38,12 @@
         "functional": "c",
         "tuple": "c",
         "type_traits": "c",
-        "fontx.h": "c"
+        "fontx.h": "c",
+        "chrono": "c",
+        "esp_timer.h": "c",
+        "uart.h": "c",
+        "queue.h": "c",
+        "sr04m_lib.h": "c",
+        "iterator": "c"
     }
 }

@@ -38,9 +38,23 @@ DRAM_ATTR int64_t timeStartReceive, timeEndReceive;
 
 static const char *TAG = "[WLC_PID]";
 
+IRAM_ATTR uint8_t HC595_SortBit(uint8_t *data) // Sorting by BIT
+{
+	uint8_t temp_buff = 0x00;
+	temp_buff |= ((*data & BIT0) != 0) * HC595_D0_BIT;
+	temp_buff |= ((*data & BIT1) != 0) * HC595_D1_BIT;
+	temp_buff |= ((*data & BIT2) != 0) * HC595_D2_BIT;
+	temp_buff |= ((*data & BIT3) != 0) * HC595_D3_BIT;
+	temp_buff |= ((*data & BIT4) != 0) * HC595_D4_BIT;
+	temp_buff |= ((*data & BIT5) != 0) * HC595_D5_BIT;
+	temp_buff |= ((*data & BIT6) != 0) * HC595_D6_BIT;
+	temp_buff |= ((*data & BIT7) != 0) * HC595_D7_BIT;
+	return temp_buff;
+}
+
 IRAM_ATTR void HC595_QueueDelayI2S(uint32_t delayUs)
 {
-	uint16_t HC595_TEMP_BUFFER = HC595_LCD_DATA_BUFFER | HC595_LCD_CTRL_BUFFER << 8;
+	uint16_t HC595_TEMP_BUFFER = HC595_SortBit(&HC595_LCD_DATA_BUFFER) | HC595_LCD_CTRL_BUFFER << 8;
 	for (uint32_t i = 0; i < delayUs / I2S_WS_PERIOD; i++)
 	{
 		xQueueSend(xQueue1, &HC595_TEMP_BUFFER, portMAX_DELAY);
@@ -142,7 +156,7 @@ void HC595_I2SInit()
 
 IRAM_ATTR void HC595_SendDataToQueue() // Add new data to Queue
 {
-	uint16_t HC595_TEMP_BUFFER = HC595_LCD_DATA_BUFFER | HC595_LCD_CTRL_BUFFER << 8;
+	uint16_t HC595_TEMP_BUFFER = HC595_SortBit(&HC595_LCD_DATA_BUFFER) | HC595_LCD_CTRL_BUFFER << 8;
 	xQueueSend(xQueue1, &HC595_TEMP_BUFFER, portMAX_DELAY);
 }
 

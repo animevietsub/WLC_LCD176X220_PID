@@ -42,7 +42,7 @@ void setDisplayLevel(TFT_t *dev, uint8_t percentage)
     uint8_t x2 = percentage * 65 / 100;
     if (x2 > x1)
     {
-        lcdDrawFillRect(dev, 55 + x1, 5, 56 + x2, 46, CYAN);
+        lcdDrawFillRect(dev, 55 + x1, 5, 56 + x2, 46, 0x7475);
     }
     else if (x2 < x1)
     {
@@ -60,6 +60,7 @@ void setSV(TFT_t *dev, FontxFile *fx, uint16_t value)
     lcdSetFontDirection(dev, 1);
     char text[6];
     sprintf(text, "%d", value);
+    lcdDrawFillRect(dev, 74, 106, 70 + fontHeight, 106 + fontWidth * 5, BLACK);
     lcdDrawString(dev, fx, 70, 106, text, WHITE);
 }
 
@@ -72,6 +73,7 @@ void setCV(TFT_t *dev, FontxFile *fx, uint16_t value)
     lcdSetFontDirection(dev, 1);
     char text[6];
     sprintf(text, "%d", value);
+    lcdDrawFillRect(dev, 57, 106, 53 + fontHeight, 106 + fontWidth * 5, BLACK);
     lcdDrawString(dev, fx, 53, 106, text, YELLOW);
 }
 
@@ -84,6 +86,7 @@ void setP(TFT_t *dev, FontxFile *fx, uint16_t value)
     lcdSetFontDirection(dev, 1);
     char text[6];
     sprintf(text, "%d", value);
+    lcdDrawFillRect(dev, 10, 18, 6 + fontHeight, 18 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 18, text, RED);
 }
 
@@ -96,6 +99,7 @@ void setI(TFT_t *dev, FontxFile *fx, uint16_t value)
     lcdSetFontDirection(dev, 1);
     char text[6];
     sprintf(text, "%d", value);
+    lcdDrawFillRect(dev, 10, 62, 6 + fontHeight, 62 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 62, text, GREEN);
 }
 
@@ -108,6 +112,7 @@ void setD(TFT_t *dev, FontxFile *fx, uint16_t value)
     lcdSetFontDirection(dev, 1);
     char text[6];
     sprintf(text, "%d", value);
+    lcdDrawFillRect(dev, 10, 112, 6 + fontHeight, 112 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 112, text, CYAN);
 }
 

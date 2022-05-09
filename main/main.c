@@ -35,10 +35,13 @@
 #include "animation.h"
 
 #include "ili9225.h"
+#include "SR04M_LIB.h"
 
 #define DRIVER "ST7775"
 #define INTERVAL 500
 #define WAIT vTaskDelay(INTERVAL)
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 static const char *TAG_I2S = "[HC595_I2S]";
 static const char *TAG_SPIFFS = "[SPIFFS]";
@@ -142,6 +145,7 @@ static void taskLCDContoller()
     while (1)
     {
         char file[32];
+        uint16_t distance;
         strcpy(file, "/spiffs/logo_gamo.jpg");
         JPEGLOGO(&dev, file, CONFIG_WIDTH, CONFIG_HEIGHT);
         WAIT;
@@ -150,19 +154,20 @@ static void taskLCDContoller()
         vTaskDelay(10);
         while (1)
         {
-            setSV(&dev, fx16G, 200);
-            setCV(&dev, fx16G, 500);
-            setP(&dev, fx16G, 156);
-            setI(&dev, fx16G, 12);
-            setD(&dev, fx16G, 5);
+            SM04M_getDistance(&distance);
+            setSV(&dev, fx16G, (uint8_t)random() % 100);
+            setCV(&dev, fx16G, distance);
+            setP(&dev, fx16G, (uint8_t)random() % 100);
+            setI(&dev, fx16G, (uint8_t)random() % 100);
+            setD(&dev, fx16G, (uint8_t)random() % 100);
             drawLightRED(&dev, 94, 78);
-            setDisplaySpeed(&dev, 50);
-            setDisplayLevel(&dev, 20);
-            vTaskDelay(pdMS_TO_TICKS(500));
+            setDisplaySpeed(&dev, (uint8_t)random() % 100);
+            setDisplayLevel(&dev, MIN(500, MAX(250, distance)) * (-4) / 10 + 200);
+            vTaskDelay(pdMS_TO_TICKS(200));
             drawLightGREEN(&dev, 94, 78);
-            setDisplaySpeed(&dev, 20);
-            setDisplayLevel(&dev, 70);
-            vTaskDelay(pdMS_TO_TICKS(500));
+            // setDisplaySpeed(&dev, (uint8_t)random() % 100);
+            // setDisplayLevel(&dev, (uint8_t)random() % 100);
+            vTaskDelay(pdMS_TO_TICKS(200));
             // lcdDrawFillRect(&dev, 15, 188, 144, 197, BLACK);
             // vTaskDelay(pdMS_TO_TICKS(500));
         }
@@ -208,6 +213,7 @@ void app_main(void)
     }
     // esp_spiffs_format(conf.partition_label);
     checkSPIFFS("/spiffs/"); // Check files
+    SR04M_Init();            // Init SR04M
     ESP_LOGI(TAG_I2S, "Starting init LCD_I2S");
     HC595_I2SInit();
     xTaskCreate(taskLCDContoller, "[taskLCDContoller]", 1024 * 6, NULL, 2, NULL);
