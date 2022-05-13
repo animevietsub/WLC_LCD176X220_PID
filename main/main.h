@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- * @file           : SR04M_LIB.h
- * @brief          : AJ-SR04M sonic sensor
+ * @file           : main.h
+ * @brief          : WLC_LCD176X220_PID
  ******************************************************************************
  * @attention
  *
@@ -16,16 +16,22 @@
  *
  ******************************************************************************
  */
-#ifndef __SR04M_LIB_H__
-#define __SR04M_LIB_H__
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
-#define SONIC_TX_PIN 16
-#define SONIC_RX_PIN 17
-#define UART_BUFFER_SIZE (1024) // Size for reveiving distance DATA
-#define SONIC_BUFFER_SIZE (64)  // Size from SONIC
-#define SR04M_DEBUG 0
+#define CAL_SAMPLES 10
 
-void SR04M_Init();
-void SM04M_getDistance(int16_t *distance);
+typedef enum
+{
+    DUMMY = -1,
+    MENU_IDLE = 0,
+    MENU_SV,
+    MENU_P,
+    MENU_I,
+    MENU_D,
+} menu_list_t;
+
+void initButton();
+void taskCalibration(TFT_t *dev, FontxFile *fx);
 
 #endif

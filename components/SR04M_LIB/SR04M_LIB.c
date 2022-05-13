@@ -44,7 +44,7 @@ void SR04M_Init()
     ESP_ERROR_CHECK(uart_driver_install(uart_num, UART_BUFFER_SIZE, UART_BUFFER_SIZE, 0, 0, 0));
 }
 
-void SM04M_getDistance(uint16_t *distance)
+void SM04M_getDistance(int16_t *distance)
 {
     uint8_t *data = (uint8_t *)malloc(SONIC_BUFFER_SIZE);
     uart_write_bytes(uart_num, SONIC_MEASURE_REQUEST, sizeof(SONIC_MEASURE_REQUEST) / sizeof(char));
@@ -55,9 +55,9 @@ void SM04M_getDistance(uint16_t *distance)
         {
 #if SR04M_DEBUG
             ESP_LOGI(TAG, "Recv data: %d, %d, %d", data[0], data[1], data[2]);
-            ESP_LOGI(TAG, "Distance: %d mm", (uint16_t)((data[1] << 8) + data[2]));
+            ESP_LOGI(TAG, "Distance: %d mm", (int16_t)((data[1] << 8) + data[2]));
 #endif
-            *distance = (uint16_t)((data[1] << 8) + data[2]); // Error
+            *distance = (int16_t)((data[1] << 8) + data[2]); // Error
         }
         else
         {

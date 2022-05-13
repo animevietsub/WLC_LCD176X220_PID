@@ -51,68 +51,68 @@ void setDisplayLevel(TFT_t *dev, uint8_t percentage)
     old_percentage_level = percentage;
 }
 
-void setSV(TFT_t *dev, FontxFile *fx, uint16_t value)
+void setSV(TFT_t *dev, FontxFile *fx, int16_t value)
 {
     uint8_t buffer[FontxGlyphBufSize];
     uint8_t fontWidth;
     uint8_t fontHeight;
     GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
     lcdSetFontDirection(dev, 1);
-    char text[6];
+    char text[7];
     sprintf(text, "%d", value);
-    lcdDrawFillRect(dev, 74, 106, 70 + fontHeight, 106 + fontWidth * 5, BLACK);
+    lcdDrawFillRect(dev, 70, 106, 70 + fontHeight, 106 + fontWidth * 5, BLACK);
     lcdDrawString(dev, fx, 70, 106, text, WHITE);
 }
 
-void setCV(TFT_t *dev, FontxFile *fx, uint16_t value)
+void setCV(TFT_t *dev, FontxFile *fx, int16_t value)
 {
     uint8_t buffer[FontxGlyphBufSize];
     uint8_t fontWidth;
     uint8_t fontHeight;
     GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
     lcdSetFontDirection(dev, 1);
-    char text[6];
+    char text[7];
     sprintf(text, "%d", value);
-    lcdDrawFillRect(dev, 57, 106, 53 + fontHeight, 106 + fontWidth * 5, BLACK);
+    lcdDrawFillRect(dev, 53, 106, 53 + fontHeight, 106 + fontWidth * 5, BLACK);
     lcdDrawString(dev, fx, 53, 106, text, YELLOW);
 }
 
-void setP(TFT_t *dev, FontxFile *fx, uint16_t value)
+void setP(TFT_t *dev, FontxFile *fx, int16_t value)
 {
     uint8_t buffer[FontxGlyphBufSize];
     uint8_t fontWidth;
     uint8_t fontHeight;
     GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
     lcdSetFontDirection(dev, 1);
-    char text[6];
+    char text[7];
     sprintf(text, "%d", value);
-    lcdDrawFillRect(dev, 10, 18, 6 + fontHeight, 18 + fontWidth * 4, BLACK);
+    lcdDrawFillRect(dev, 6, 18, 6 + fontHeight, 18 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 18, text, RED);
 }
 
-void setI(TFT_t *dev, FontxFile *fx, uint16_t value)
+void setI(TFT_t *dev, FontxFile *fx, int16_t value)
 {
     uint8_t buffer[FontxGlyphBufSize];
     uint8_t fontWidth;
     uint8_t fontHeight;
     GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
     lcdSetFontDirection(dev, 1);
-    char text[6];
+    char text[7];
     sprintf(text, "%d", value);
-    lcdDrawFillRect(dev, 10, 62, 6 + fontHeight, 62 + fontWidth * 4, BLACK);
+    lcdDrawFillRect(dev, 6, 62, 6 + fontHeight, 62 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 62, text, GREEN);
 }
 
-void setD(TFT_t *dev, FontxFile *fx, uint16_t value)
+void setD(TFT_t *dev, FontxFile *fx, int16_t value)
 {
     uint8_t buffer[FontxGlyphBufSize];
     uint8_t fontWidth;
     uint8_t fontHeight;
     GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
     lcdSetFontDirection(dev, 1);
-    char text[6];
+    char text[7];
     sprintf(text, "%d", value);
-    lcdDrawFillRect(dev, 10, 112, 6 + fontHeight, 112 + fontWidth * 4, BLACK);
+    lcdDrawFillRect(dev, 6, 112, 6 + fontHeight, 112 + fontWidth * 4, BLACK);
     lcdDrawString(dev, fx, 6, 112, text, CYAN);
 }
 
@@ -154,4 +154,15 @@ void drawLightGREEN(TFT_t *dev, uint16_t offsetX, uint16_t offsetY)
     char file[32];
     strcpy(file, "/spiffs/light_green.jpg");
     drawImage(dev, file, offsetX, offsetY, 16, 16);
+}
+
+void setTextInCenter(TFT_t *dev, FontxFile *fx, char *text, int8_t offset, uint16_t color)
+{
+    uint8_t buffer[FontxGlyphBufSize];
+    uint8_t fontWidth;
+    uint8_t fontHeight;
+    GetFontx(fx, 0, buffer, &fontWidth, &fontHeight);
+    lcdSetFontDirection(dev, 1);
+    lcdDrawFillRect(dev, CONFIG_WIDTH / 2 + offset, CONFIG_HEIGHT / 2 - fontWidth * strlen(text) / 2, CONFIG_WIDTH / 2 + offset + fontHeight, CONFIG_HEIGHT / 2 + fontWidth * (-strlen(text) / 2 + 12), BLACK);
+    lcdDrawString(dev, fx, CONFIG_WIDTH / 2 + offset, CONFIG_HEIGHT / 2 - fontWidth * strlen(text) / 2, text, color);
 }

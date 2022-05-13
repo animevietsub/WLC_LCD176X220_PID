@@ -40,13 +40,14 @@
 
 void setDisplaySpeed(TFT_t *dev, uint8_t percentage);
 void setDisplayLevel(TFT_t *dev, uint8_t percentage);
-void setSV(TFT_t *dev, FontxFile *fx, uint16_t value);
-void setCV(TFT_t *dev, FontxFile *fx, uint16_t value);
-void setP(TFT_t *dev, FontxFile *fx, uint16_t value);
-void setI(TFT_t *dev, FontxFile *fx, uint16_t value);
-void setD(TFT_t *dev, FontxFile *fx, uint16_t value);
+void setSV(TFT_t *dev, FontxFile *fx, int16_t value);
+void setCV(TFT_t *dev, FontxFile *fx, int16_t value);
+void setP(TFT_t *dev, FontxFile *fx, int16_t value);
+void setI(TFT_t *dev, FontxFile *fx, int16_t value);
+void setD(TFT_t *dev, FontxFile *fx, int16_t value);
 void drawImage(TFT_t *dev, char *file, uint16_t offsetX, uint16_t offsetY, uint16_t width, uint16_t height);
 void drawLightRED(TFT_t *dev, uint16_t offsetX, uint16_t offsetY);
 void drawLightGREEN(TFT_t *dev, uint16_t offsetX, uint16_t offsetY);
+void setTextInCenter(TFT_t *dev, FontxFile *fx, char *text, int8_t offset, uint16_t color);
 
 #endif

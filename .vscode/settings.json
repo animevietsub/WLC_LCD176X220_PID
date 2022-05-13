@@ -44,6 +44,7 @@
         "uart.h": "c",
         "queue.h": "c",
         "sr04m_lib.h": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "port.h": "c"
     }
 }
